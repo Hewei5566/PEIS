@@ -1,6 +1,6 @@
 import pytest
 import allure
-from WEB_UI_TEST.business_methods.peis import Business
+from WEB_UI_TEST.business_methods.department_inspection import DepartInspect
 from selenium.webdriver.common.by import By
 
 
@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 @allure.feature('科室检查-体检人员列表')
 @allure.story('时间搜索验证')
 def test_department_inspection_case1():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('科室检查-开始日期|科室检查-开始日期向前一月|科室检查-开始具体日期|科室检查-搜索')
     result = browser.text_ele('科室检查-搜索结果')
     assert '没有搜索到相关体检人员' in browser.text_ele('提示') or len(result) != 0, '时间搜索验证,校验失败'
@@ -18,7 +18,7 @@ def test_department_inspection_case1():
 @allure.feature('科室检查-体检人员列表')
 @allure.story('时间范围错误搜索验证')
 def test_department_inspection_case2():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('科室检查-结束日期|科室检查-结束日期向前一月|科室检查-结束具体日期|科室检查-搜索')
     assert '开始时间不可大于结束时间' in browser.text_ele('日期范围提示', By.CSS_SELECTOR), '时间范围错误搜索验证,校验失败'
 
@@ -27,7 +27,7 @@ def test_department_inspection_case2():
 @allure.feature('科室检查-体检类型')
 @allure.story('体检类型检查及功能确认')
 def test_department_inspection_case3():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result = browser.type_check('科室检查-体检类型', '15')
     assert result is True, '体检类型检查及功能确认,校验失败'
 
@@ -36,7 +36,7 @@ def test_department_inspection_case3():
 @allure.feature('科室检查-搜索类型')
 @allure.story('默认搜索类型及切换')
 def test_department_inspection_case4():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     default_result = '单位' not in browser.text_recognition('搜索信息表')
     browser.continuous_clicks('搜索类型下拉按钮|高级搜索')
     change_result = '单位' in browser.text_recognition('搜索信息表')
@@ -47,7 +47,7 @@ def test_department_inspection_case4():
 @allure.feature('科室检查-高级搜索')
 @allure.story('高级搜索-点击搜索')
 def test_department_inspection_case5():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('搜索类型下拉按钮|高级搜索|团队批次下拉按钮|散客批次/css|科室检查-搜索')
     text = browser.text_ele('科室检查-搜索结果')
     result = '没有搜索到相关体检人员' in browser.text_ele('提示') or len(text) != 0
@@ -58,7 +58,7 @@ def test_department_inspection_case5():
 @allure.feature('科室检查-高级搜索')
 @allure.story('高级搜索-输入搜索')
 def test_department_inspection_case6():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('搜索类型下拉按钮|高级搜索|团队批次下拉按钮|团队批次输入框：散客')
     result1 = '散客' in browser.text_recognition('团队批次搜索结果', By.CSS_SELECTOR)
     browser.continuous_clicks('团队批次搜索结果/css|科室检查-搜索')
@@ -70,7 +70,7 @@ def test_department_inspection_case6():
 @allure.feature('科室检查-搜索')
 @allure.story('姓名搜索')
 def test_department_inspection_case7():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('科室检查-姓名输入框：奥特曼|科室检查-搜索')
     no_result = '没有搜索到相关体检人员' in browser.text_ele('提示')
     browser.continuous_clicks('科室检查-开始日期|科室检查-开始日期向前一月|科室检查-开始具体日期')
@@ -84,7 +84,7 @@ def test_department_inspection_case7():
 @allure.feature('科室检查-搜索')
 @allure.story('搜索条件重置')
 def test_department_inspection_case8():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.driver.continuous_clicks('搜索类型下拉按钮|高级搜索')
     browser.continuous_input('科室检查-姓名输入框', '迪迦', '科室检查-编号输入框', '奥特军团007',
                              '科室检查-住址输入框', 'M78星云')
@@ -98,7 +98,7 @@ def test_department_inspection_case8():
 @allure.feature('科室检查-搜索')
 @allure.story('当周搜')
 def test_department_inspection_case9():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     # now_time = time.strftime("%Y-%m-%d", time.localtime())
     # default_result = now_time in browser.text_recognition('开始日期信息栏')
     # browser.continuous_clicks('搜索类型下拉按钮|一周体检人员|科室检查-搜索')
@@ -113,7 +113,7 @@ def test_department_inspection_case9():
 @allure.feature('科室检查-搜索')
 @allure.story('当月搜')
 def test_department_inspection_case10():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.month_search()
     assert False not in result_list, '当月搜,校验失败'
 
@@ -122,7 +122,7 @@ def test_department_inspection_case10():
 @allure.feature('科室检查-未检已检')
 @allure.story('未检已检切换')
 def test_department_inspection_case11():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.check_state()
     assert False not in result_list, '未检已检切换，校验失败'
 
@@ -131,7 +131,7 @@ def test_department_inspection_case11():
 @allure.feature('科室检查-手动输入卡号')
 @allure.story('手动输入卡号')
 def test_department_inspection_case12():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('科室检查-开始日期|科室检查-开始日期向前一月|科室检查-开始具体日期|科室检查-搜索')
     number = browser.text_ele('科室检查-搜索结果2编号', By.CSS_SELECTOR)
     browser.continuous_clicks(f'体检人员列表-编号输入框：{number}|体检人员列表-编号输入框：ENTER|提示确定/css')
@@ -142,7 +142,7 @@ def test_department_inspection_case12():
 # @allure.feature('科室检查-手动输入身份证')
 # @allure.story('手动输入身份证')
 # def test_department_inspection_case13():
-#     browser = Business('科室检查', 'peis', 'Chrome').driver
+#     browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
 #     browser.continuous_clicks('科室检查-开始日期|科室检查-开始日期向前一月|科室检查-开始具体日期|科室检查-搜索')
 #     number = browser.text_ele('科室检查-搜索结果2身份证', By.CSS_SELECTOR)
 #     browser.input_ele('体检人员列表-编号输入框', number)
@@ -155,7 +155,7 @@ def test_department_inspection_case12():
 @allure.feature('科室检查-记录')
 @allure.story('用户未付费')
 def test_department_inspection_case14():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('体检人员列表-编号输入框：202105274279111|体检人员列表-编号输入框：ENTER')
     browser.exists_judge('提示确定', By.CSS_SELECTOR)
     assert '未收费，不允许进行科室检查' in browser.text_ele('提示'), '用户未付费，校验失败'
@@ -165,7 +165,7 @@ def test_department_inspection_case14():
 @allure.feature('科室检查-记录')
 @allure.story('团队用户已付费')
 def test_department_inspection_case15():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('体检人员列表-编号输入框：202105281304|体检人员列表-编号输入框：ENTER')
     result = browser.exists_judge('提示确定', By.CSS_SELECTOR)
     assert result is True, '团队用户已付费，校验失败'
@@ -175,7 +175,7 @@ def test_department_inspection_case15():
 @allure.feature('科室检查-记录')
 @allure.story('个人用户已付费')
 def test_department_inspection_case16():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('体检人员列表-编号输入框：202105281135|体检人员列表-编号输入框：ENTER')
     result = browser.exists_judge('提示确定', By.CSS_SELECTOR)
     assert result is True, '个人用户已付费，校验失败'
@@ -185,7 +185,7 @@ def test_department_inspection_case16():
 @allure.feature('科室检查-记录')
 @allure.story('指标模板替换保存')
 def test_department_inspection_case17():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('模板输入')
     assert False not in result_list, '指标模板替换保存，校验失败'
 
@@ -194,7 +194,7 @@ def test_department_inspection_case17():
 @allure.feature('科室检查-记录')
 @allure.story('指标输入保存')
 def test_department_inspection_case18():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('键盘输入', '5')
     assert False not in result_list, '指标输入保存，校验失败'
 
@@ -203,7 +203,7 @@ def test_department_inspection_case18():
 @allure.feature('科室检查-记录')
 @allure.story('指标输入取消')
 def test_department_inspection_case19():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|提示确定/css|科室检查-指标框1')
     browser.driver.input_ele('科室检查-结果输入框', '10', By.CSS_SELECTOR)
@@ -217,7 +217,7 @@ def test_department_inspection_case19():
 @allure.feature('科室检查-记录')
 @allure.story('多指标输入')
 def test_department_inspection_case20():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('模板输入', number=5)
     assert False not in result_list
 
@@ -226,7 +226,7 @@ def test_department_inspection_case20():
 @allure.feature('科室检查-记录')
 @allure.story('默认结果保存')
 def test_department_inspection_case21():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('默认结果')
     assert False not in result_list, '默认结果保存，校验失败'
 
@@ -235,7 +235,7 @@ def test_department_inspection_case21():
 @allure.feature('科室检查-记录')
 @allure.story('先输入后默认结果保存')
 def test_department_inspection_case22():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('先输入后默认', '100')
     assert False not in result_list, '先输入后默认结果保存，校验失败'
 
@@ -244,7 +244,7 @@ def test_department_inspection_case22():
 @allure.feature('科室检查-记录')
 @allure.story('先默认后修改结果保存')
 def test_department_inspection_case23():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.checked_result_save('先默认后修改', '100')
     assert False not in result_list, '先默认后修改结果保存，校验失败'
 
@@ -253,7 +253,7 @@ def test_department_inspection_case23():
 @allure.feature('科室检查-记录')
 @allure.story('指标异常保存')
 def test_department_inspection_case24():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|'
                                      '提示确定/css|科室检查-指标框2|指标结果模板替换/css|科室检查-指标框1')
@@ -268,7 +268,7 @@ def test_department_inspection_case24():
 @allure.feature('科室检查-记录')
 @allure.story('输入科室小结保存')
 def test_department_inspection_case25():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|提示确定/css|'
                                      '科室检查-指标框2|指标结果模板替换/css|科室检查-指标框1|科室检查-科室小结信息栏：存在异常指标|'
@@ -281,7 +281,7 @@ def test_department_inspection_case25():
 @allure.feature('科室检查-记录')
 @allure.story('生成科室小结')
 def test_department_inspection_case26():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|'
                                      '提示确定/css|科室检查-默认结果|科室检查-保存|体检人员列表-编号输入框：ENTER')
@@ -294,7 +294,7 @@ def test_department_inspection_case26():
 @allure.feature('科室检查-记录')
 @allure.story('输入科室小结后重新生成覆盖保存')
 def test_department_inspection_case27():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|提示确定/css|'
                                      '科室检查-指标框2|指标结果模板替换/css|科室检查-指标框1|科室检查-科室小结信息栏：存在异常指标|'
@@ -307,7 +307,7 @@ def test_department_inspection_case27():
 @allure.feature('科室检查-记录')
 @allure.story('科室小结与诊断切换')
 def test_department_inspection_case28():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER')
     default_result = '生成小结' in browser.driver.text_ele('科室检查-科室小结选项栏')
@@ -320,7 +320,7 @@ def test_department_inspection_case28():
 @allure.feature('科室检查-记录')
 @allure.story('新增一条诊断')
 def test_department_inspection_case29():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet()
     browser.add_diagnosis('1')
     text = browser.driver.text_ele('科室检查-诊断信息')
@@ -328,15 +328,15 @@ def test_department_inspection_case29():
     assert browser.driver.text_ele('科室检查-诊断信息') in text
     browser.delete_diagnosis('1')
 
-
+'30 32 40 41 42'
 @allure.epic('健康管理系统')
 @allure.feature('科室检查-记录')
 @allure.story('新增多条诊断')
 def test_department_inspection_case30():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet()
     browser.add_diagnosis('3')
-    browser.driver.continuous_clicks('科室检查-保存|体检人员列表-编号输入框：ENTER|科室检查-诊断')
+    browser.driver.continuous_clicks('科室检查-保存|体检人员列表-编号输入框：ENTER|提示确定/css|科室检查-诊断')
     assert len(browser.driver.text_ele('科室检查-诊断信息')) > 20
     browser.delete_diagnosis('3')
 
@@ -345,7 +345,7 @@ def test_department_inspection_case30():
 @allure.feature('科室检查-记录')
 @allure.story('新增后取消')
 def test_department_inspection_case31():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet()
     browser.add_diagnosis('1')
     result1 = len(browser.driver.text_ele('科室检查-诊断信息')) > 10
@@ -358,7 +358,7 @@ def test_department_inspection_case31():
 @allure.feature('科室检查-记录')
 @allure.story('新增搜索保存')
 def test_department_inspection_case32():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet('诊断新增', '诊断模板搜索框：中耳炎')
     result1 = '中耳炎' in browser.driver.text_ele('科室检查-诊断模板1')
     browser.driver.continuous_clicks('科室检查-诊断模板1|科室检查-指标框2')
@@ -372,7 +372,7 @@ def test_department_inspection_case32():
 @allure.feature('科室检查-记录')
 @allure.story('诊断新增页面展示')
 def test_department_inspection_case33():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet('诊断新增', '诊断模板默认展示数')
     text1 = browser.driver.text_ele('科室检查-诊断模板信息')
     browser.driver.continuous_clicks('科室检查-诊断模板展示数2|科室检查-诊断模板页数输入框：01|科室检查-诊断模板页数输入框：ENTER')
@@ -388,7 +388,7 @@ def test_department_inspection_case33():
 @allure.feature('科室检查-记录')
 @allure.story('诊断增加描述')
 def test_department_inspection_case34():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet('诊断新增', '诊断模板1')
     browser.input_diagnostic_info('诊断描述1', '诊断描述输入框', '一个不太严重的病', By.CSS_SELECTOR)
     browser.input_diagnostic_info('诊断处理意见1', '诊断处理意见输入框', '好好休息就行', By.CSS_SELECTOR)
@@ -400,7 +400,7 @@ def test_department_inspection_case34():
 @allure.feature('科室检查-记录')
 @allure.story('删除诊断')
 def test_department_inspection_case35():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet()
     browser.add_diagnosis('1')
     result1 = len(browser.driver.text_recognition('科室检查-诊断信息')) > 10
@@ -413,7 +413,7 @@ def test_department_inspection_case35():
 @allure.feature('科室检查-记录')
 @allure.story('诊断向上、向下')
 def test_department_inspection_case36():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet()
     browser.add_diagnosis('2')
     text1 = browser.driver.text_ele('科室检查-诊断信息')
@@ -428,7 +428,7 @@ def test_department_inspection_case36():
 @allure.feature('科室检查-记录')
 @allure.story('生成诊断')
 def test_department_inspection_case37():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet('生成诊断')
     assert '血压偏高' in browser.driver.text_ele('科室检查-诊断信息')
 
@@ -437,7 +437,7 @@ def test_department_inspection_case37():
 @allure.feature('科室检查-检查科室')
 @allure.story('检查科室选择')
 def test_department_inspection_case38():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('科室检查-开始日期|科室检查-开始日期向前一月|科室检查-开始具体日期|科室检查-搜索')
     result = browser.text_ele('科室检查-搜索结果')
     browser.continuous_clicks('科室检查-科室下拉按钮|科室检查-科室2')
@@ -448,7 +448,7 @@ def test_department_inspection_case38():
 @allure.feature('科室检查-检查科室')
 @allure.story('检查科室选择')
 def test_department_inspection_case39():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.account_check()
     browser.driver.continuous_clicks('体检人员列表-编号输入框：202105281305|体检人员列表-编号输入框：ENTER|提示确定/css')
     result = browser.driver.text_ele('科室检查-搜索结果')
@@ -460,7 +460,7 @@ def test_department_inspection_case39():
 @allure.feature('科室检查-记录')
 @allure.story('诊断撤销')
 def test_department_inspection_case40():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     browser.enter_diagnosis_sheet('保存', '体检人员列表-编号输入框：ENTER', '记录', '提示确定/css', '诊断', '诊断新增',
                                   '诊断模板1')
     result1 = len(browser.driver.text_recognition('科室检查-诊断信息')) > 10
@@ -475,7 +475,7 @@ def test_department_inspection_case40():
 @allure.feature('科室检查-弃检')
 @allure.story('弃检验证')
 def test_department_inspection_case41():
-    browser = Business('科室检查', 'peis', 'Chrome')
+    browser = DepartInspect('科室检查', 'peis', 'Chrome')
     result_list = browser.abandon_check()
     assert False not in result_list, '弃检验证，校验成功'
 
@@ -484,10 +484,10 @@ def test_department_inspection_case41():
 @allure.feature('科室检查-弃检')
 @allure.story('取消检查验证')
 def test_department_inspection_case42():
-    browser = Business('科室检查', 'peis', 'Chrome').driver
+    browser = DepartInspect('科室检查', 'peis', 'Chrome').driver
     browser.continuous_clicks('体检人员列表-编号输入框：202105281325|体检人员列表-编号输入框：ENTER|科室检查-取消检查|提示确定/css')
     assert '取消失败：没有需要取消检查的项目' in browser.text_ele('提示'), '取消检查验证，校验成功'
 
 
 if __name__ == '__main__':
-    pytest.main(["-s", "-v"])
+    pytest.main(["-s", "-v", "--alluredir"])
